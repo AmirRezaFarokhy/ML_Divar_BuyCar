@@ -55,8 +55,6 @@ def ExtractDataFromSite():
                     key_value = row.get_text(separator=',')
                     if i<=1:
                         pass
-                    elif key_value.split(',')[1]=='سالم':
-                        pass
                     elif i==len(rows)-1:
                         col_row['price'] = float(unidecode(key_value.split(',')[1].split(' ')[0]).replace(',', ''))
                     elif i==5:
