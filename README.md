@@ -1,7 +1,7 @@
 # ML Divar BuyCar
 The price and features of the cars are scraped from the wall site and converted into value data, and then we put a machine learning algorithm on it to get a price prediction.
 
-## Build
+## Library
 Run this command line to install the required library:
 ```bash
 pip install requirements.txt
