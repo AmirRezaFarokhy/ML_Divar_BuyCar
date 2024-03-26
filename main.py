@@ -13,6 +13,17 @@ import time
 PATH = "https://divar.ir"
 URL = f"{PATH}/s/iran/auto?q=206"
 EXTRACT = "post-list__items-container-e44b2"
+ENV_TOKEN = {
+            'colume_4' : {'خط و خش جزیی':85
+                           ,'رنگ‌شدگی':45
+                           ,'سالم و بی‌خط و خش':100 
+                           ,'دوررنگ':10},
+             'colume_3' : {'سالم و پلمپ':90, 
+                           'ضربه‌خورده':10},
+             'colume_6' : {'اتوماتیک':1, 
+                           'دنده\u200cای':0}
+}
+
 
 
 def Requests(path_req, class_type=None):
@@ -33,9 +44,9 @@ def ExtractDataFromSite():
             for a in d.find_all('a', href=True):
                 data_path = a['href']
                 NEW_URL = PATH + data_path
-                time.sleep(10)
+                time.sleep(60)
                 datasets = Requests(NEW_URL, class_type="post-page__section--padded")
-                time.sleep(10)
+                time.sleep(30)
                 rows = datasets.findAll('div', 
                             {'class':"kt-base-row kt-base-row--large kt-unexpandable-row"})
                 col_row = {}
@@ -43,6 +54,8 @@ def ExtractDataFromSite():
                 for i, row in enumerate(rows):
                     key_value = row.get_text(separator=',')
                     if i<=1:
+                        pass
+                    elif key_value.split(',')[1]=='سالم':
                         pass
                     elif i==len(rows)-1:
                         col_row['price'] = float(unidecode(key_value.split(',')[1].split(' ')[0]).replace(',', ''))
@@ -68,8 +81,32 @@ def ExtractDataFromSite():
     return all_values_together, token
 
 
-dataset, token = ExtractDataFromSite()
 
-print(f"Dataset is: {dataset}, Token is: {token}")
+def TokenizationData():
+    dataset, token = ExtractDataFromSite()
+    for data in dataset:
+        for key in data.keys():
+            try:
+                data[key] = ENV_TOKEN[key][data[key]]
+            except Exception as cannot:
+                pass
+    return dataset, token
+
+
+def CreateDataFrame():
+    dataset, token = TokenizationData()
+    for index, data in enumerate(dataset):
+        if index==0:
+            df = pd.DataFrame([data])
+        else:
+            df.loc[len(df)] = data 
+    
+    return df, token
+
+
+df, token = CreateDataFrame()
+
+print(f"Dataset is: {df.head()}, Token is: {token}")
+
 
 
