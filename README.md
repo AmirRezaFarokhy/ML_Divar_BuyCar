@@ -1,4 +1,4 @@
-# ML Divar BuyCar
+# ML Divar Buy Car
 The price and features of the cars are scraped from the wall site and converted into value data, and then we put a machine learning algorithm on it to get a price prediction.
 
 ## Library
