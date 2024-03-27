@@ -7,7 +7,7 @@ I request the site and first get the url on all cars on site, then I try to make
 ### Url Conceptation
 1) First we request this url : https://divar.ir/s/iran/auto?q=206
 2) Then we set time `time.sleep` for 30 seconds. Because it doesn't block my site.
-3) Finally I get the href tag `a` inside the url and request more information in this code `NEW_URL = PATH + data_path`.
+3) Finally I get the href tag `a` inside the url and request more information in this code `NEW_URL = https://divar.ir + data_path`.
 
 
 ## Library
