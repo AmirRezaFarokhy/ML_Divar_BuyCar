@@ -86,10 +86,10 @@ def ExtractDataFromSite():
                         cnt += 1
                         all_values_together.append(col_row)
                         print(f'Done. URL: {NEW_URL}, {cnt}')
+                        if cnt==120:
+                            break
                     else:
                         print(f"\nThis data is less feature so must removed --> {col_row}, leght {len(col_row)}\n")
-                    if cnt==120:
-                        break
 
                 except Exception as _:
                     print("Pass an error")
