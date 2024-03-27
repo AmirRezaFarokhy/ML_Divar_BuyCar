@@ -3,6 +3,8 @@ import urllib3
 import pandas as pd
 from unidecode import unidecode
 import time
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from PreprocessingData import Preprocess
 
@@ -19,7 +21,11 @@ ENV_TOKEN = {
             'colume_4' : {'خط و خش جزیی':85
                            ,'رنگ‌شدگی':45
                            ,'سالم و بی‌خط و خش':100 
-                           ,'دوررنگ':10},
+                           ,',دوررنگ':10,
+                          'تمام‌رنگ':10 ,
+                         'دوررنگ':10 ,
+                         'صافکاری بی‌رنگ':75},
+    
              'colume_3' : {'سالم و پلمپ':90, 
                            'ضربه‌خورده':10},
              'colume_6' : {'اتوماتیک':1, 
@@ -101,6 +107,16 @@ def CreateDataFrame():
             df.loc[len(df)] = data 
     
     return df, token
+
+
+def VisulizeData():
+    ImportantColumn = ['colume_4', 'colume_6', 'colume_10', 'colume_11', 'colume_3']
+    for col in ImportantColumn:
+        plt.scatter(df[col], df['price'])
+        plt.title("Scatter Plot")
+        plt.xlabel(token[col])
+        plt.ylabel('Price')
+        plt.show()
 
 
 df, token = CreateDataFrame()
