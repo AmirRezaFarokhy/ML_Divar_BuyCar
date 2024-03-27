@@ -109,19 +109,25 @@ def CreateDataFrame():
     return df, token
 
 
-def VisulizeData():
-    ImportantColumn = ['colume_4', 'colume_6', 'colume_10', 'colume_11', 'colume_3']
-    for col in ImportantColumn:
-        plt.scatter(df[col], df['price'])
-        plt.title("Scatter Plot")
-        plt.xlabel(token[col])
-        plt.ylabel('Price')
-        plt.show()
+def VisulizeData(boxplot=False):
+    if not boxplot:
+        ImportantColumn = ['colume_4', 'colume_6', 'colume_10', 'colume_11', 'colume_3']
+        for col in ImportantColumn:
+            plt.scatter(df[col], df['price'])
+            plt.title("Scatter Plot")
+            plt.xlabel(token[col])
+            plt.ylabel('Price')
+            plt.show()
+    else:
+        sns.boxplot(df['colume_4'])
 
 
+dectect_outlier = Preprocess()
 df, token = CreateDataFrame()
-
+main_df = dectect_outlier.RemoveOutliers(df, 'colume_4', 20)
 print(f"Dataset is: {df.head()}, Token is: {token}")
 
+# Save data
+main_df.to_csv("Cars.csv")
 
 
