@@ -49,46 +49,53 @@ def ExtractDataFromSite():
         time.sleep(10)
         all_values_together = []
         cnt = 0
-        for a in data.find_all('a', href=True):
-            data_path = a['href']
-            NEW_URL = PATH + data_path
-            time.sleep(10)
-            datasets = Requests(NEW_URL, class_type="post-page__section--padded")
-            time.sleep(10)
-            rows = datasets.findAll('div', 
-                        {'class':"kt-base-row kt-base-row--large kt-unexpandable-row"})
-            col_row = {}
-            token = {}
-            for i, row in enumerate(rows):
-                key_value = row.get_text(separator=',')
-                if i<=1 or key_value.split(',')[1]=='سالم':
-                    pass
-                elif i==len(rows)-1:
-                    col_row['price'] = float(unidecode(key_value.split(',')[1].split(' ')[0]).replace(',', ''))
-                    
-                elif key_value.split(',')[1]=='شاسی جلو' or key_value.split(',')[1]=='شاسی عقب':
-                    token[f'colume_{i}'] = key_value.split(',')[0]
-                    col_row[f'colume_{i}'] = key_value.split(',')[1]
-                else:
-                    token[f'colume_{i}'] = key_value.split(',')[0]
-                    col_row[f'colume_{i}'] = key_value.split(',')[1]
-                    
-            count = 10     
-            for conts, keys in zip(datasets.find_all('td')[:-1], datasets.find_all('th')[:-1]):
-                col_row[f'colume_{count}'] = int(float(unidecode(conts.contents[0]).replace(',', '')))
-                token[f'colume_{count}'] = keys.text
-                count += 1
+        try:
+            for a in data.find_all('a', href=True):
+                data_path = a['href']
+                NEW_URL = PATH + data_path
+                time.sleep(10)
+                datasets = Requests(NEW_URL, class_type="post-page__section--padded")
+                time.sleep(10)
+                rows = datasets.findAll('div', 
+                            {'class':"kt-base-row kt-base-row--large kt-unexpandable-row"})
+                col_row = {}
+                token = {}
+                try:
+                    for i, row in enumerate(rows):
+                        key_value = row.get_text(separator=',')
+                        if i<=1 or key_value.split(',')[1]=='سالم':
+                            pass
+                        elif i==len(rows)-1:
+                            col_row['price'] = float(unidecode(key_value.split(',')[1].split(' ')[0]).replace(',', ''))
+                            
+                        elif key_value.split(',')[1]=='شاسی جلو' or key_value.split(',')[1]=='شاسی عقب':
+                            token[f'colume_{i}'] = key_value.split(',')[0]
+                            col_row[f'colume_{i}'] = key_value.split(',')[1]
+                        else:
+                            token[f'colume_{i}'] = key_value.split(',')[0]
+                            col_row[f'colume_{i}'] = key_value.split(',')[1]
+                            
+                    count = 10     
+                    for conts, keys in zip(datasets.find_all('td')[:-1], datasets.find_all('th')[:-1]):
+                        col_row[f'colume_{count}'] = int(float(unidecode(conts.contents[0]).replace(',', '')))
+                        token[f'colume_{count}'] = keys.text
+                        count += 1
 
-            col_row['url'] = NEW_URL
-            if len(col_row)==8:
-                cnt += 1
-                all_values_together.append(col_row)
-                print(f'Done. URL: {NEW_URL}, {cnt}')
-            else:
-                print(f"\nThis data is less feature so must removed --> {col_row}, leght {len(col_row)}\n")
-            if cnt==120:
-                break
-            
+                    col_row['url'] = NEW_URL
+                    if len(col_row)==8:
+                        cnt += 1
+                        all_values_together.append(col_row)
+                        print(f'Done. URL: {NEW_URL}, {cnt}')
+                    else:
+                        print(f"\nThis data is less feature so must removed --> {col_row}, leght {len(col_row)}\n")
+                    if cnt==120:
+                        break
+
+                except Exception as _:
+                    print("Pass an error")
+
+        except Exception as _:
+            print("Pass an error")    
 
     except Exception as error:
         print("Request is Refus please try again." , error)
