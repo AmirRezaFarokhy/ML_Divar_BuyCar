@@ -8,6 +8,7 @@ import seaborn as sns
 
 from PreprocessingData import Preprocess
 
+
 # ASK = input("What type of car you want? ")
 # PATH = 'https://divar.ir'
 # URL = f'{PATH}/s/iran/auto?q={ASK}'
