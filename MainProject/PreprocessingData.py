@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
 class Preprocess:
 
     def RemoveOutliers(self, main_df, col, threshold):
