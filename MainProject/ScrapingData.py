@@ -14,7 +14,6 @@ from PreprocessingData import Preprocess
 # URL = f'{PATH}/s/iran/auto?q={ASK}'
 # EXTRACT = "post-list__items-container-e44b2"
 
-
 PATH = "https://divar.ir"
 URL = f"{PATH}/s/iran/auto?q=206"
 EXTRACT = "post-list__items-container-e44b2"
