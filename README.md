@@ -1,6 +1,7 @@
 # ML Divar Buy Car
 The price and features of the cars are scraped from the wall site and converted into value data, and then we put a machine learning algorithm on it to get a price prediction.
 
+
 ## Descriptions
 I request the site and first get the url on all cars on site, then I try to make a further request for the information inside the urls and get the data for each car.
 
